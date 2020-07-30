@@ -35,8 +35,13 @@ const _ = require('lodash');
              var users = $parse(attrs.opInboxComposeUsers)(scope);
 
               targets = users.map(function(target) {
+                // TODO: Write tests for this (esn-frontend-mailto-handler#2)
                 var targetToAdded = {
-                  name: target.name || target.displayName || target.displayName() || target.firstname + ' ' + target.lastname || target.preferredEmail,
+                  name: target.name ||
+                        typeof target.displayName === 'function' && target.displayName() ||
+                        target.displayName ||
+                        target.firstname + ' ' + target.lastname ||
+                        target.preferredEmail,
                   email: target.email || target.preferredEmail
                 };
 
