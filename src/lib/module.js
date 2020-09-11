@@ -1,3 +1,5 @@
+const angular = require('angular');
+
 (function(angular) {
   'use strict';
 
