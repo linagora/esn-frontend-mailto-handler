@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start test/config/karma.conf.js",
+    "lint": "eslint src test webpack.*.js",
     "build:dev": "webpack"
   },
   "author": "",
@@ -28,6 +29,10 @@
     "mocha": "6.2.0",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "@linagora/eslint-config-linagora-esn": "^2.0.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
   }
 }
