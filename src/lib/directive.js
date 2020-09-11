@@ -32,7 +32,7 @@ const _ = require('lodash');
             var targets;
 
             if (attrs.opInboxComposeUsers) {
-             var users = $parse(attrs.opInboxComposeUsers)(scope);
+              var users = $parse(attrs.opInboxComposeUsers)(scope);
 
               targets = users.map(function(target) {
                 // TODO: Write tests for this (esn-frontend-mailto-handler#2)
