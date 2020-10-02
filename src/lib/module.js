@@ -8,3 +8,4 @@ const angular = require('angular');
 })(angular);
 
 require('./directive.js');
+require('./constant');
