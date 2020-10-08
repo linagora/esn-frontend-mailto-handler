@@ -5,7 +5,7 @@ const _ = require('lodash');
 
   angular.module('esn.mailto-handler').directive('opInboxCompose', opInboxCompose);
 
-  function opInboxCompose($parse, $window) {
+  function opInboxCompose($parse, $window, MAILTOHANDLER_CONSTANTS) {
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
@@ -20,6 +20,23 @@ const _ = require('lodash');
           if (_isEmailDefinedByOpInboxCompose()) {
             return [attrs.opInboxCompose];
           }
+        }
+
+        function getWindowAttributes() {
+          const defaultWindowWidth = attrs.opInboxComposeWidth && Number.isInteger(Number(attrs.opInboxComposeWidth)) ?
+            Number(attrs.opInboxComposeWidth) : MAILTOHANDLER_CONSTANTS.windowWidth;
+          const defaultWindowHeight = attrs.opInboxComposeHeight && Number.isInteger(Number(attrs.opInboxComposeHeight)) ?
+            Number(attrs.opInboxComposeHeight) : MAILTOHANDLER_CONSTANTS.windowHeight;
+          const sHeight = $window.screen && $window.screen.height || 0;
+          const sWidth = $window.screen && $window.screen.width || 0;
+
+          const wHeight = Math.min(defaultWindowHeight, sHeight || defaultWindowHeight);
+          const wWidth = Math.min(defaultWindowWidth, sWidth || defaultWindowWidth);
+
+          const top = Math.max(Math.round((sHeight - wHeight) / 2), 0);
+          const left = Math.max(Math.round((sWidth - wWidth) / 2), 0);
+
+          return `width=${wWidth},height=${wHeight},menubar=no,toolbar=no,status=no,top=${top},left=${left}`;
         }
 
         element.on('click', function(event) {
@@ -57,7 +74,7 @@ const _ = require('lodash');
               });
             }
 
-            $window.open(getMailtoUrl(targets), '_blank');
+            $window.open(getMailtoUrl(targets), '_blank', getWindowAttributes());
           }
         });
       }
@@ -73,3 +90,5 @@ const _ = require('lodash');
   }
 
 })(angular);
+
+require('./constant');
