@@ -85,7 +85,7 @@ const _ = require('lodash');
         return target.email;
       }).join(',');
 
-      return new URL('/mailto/?uri=mailto:' + encodeURIComponent(recipients), $window.location.origin).toString();
+      return new URL('/mailto/?uri=mailto:' + encodeURIComponent(recipients), window.openpaas.MAILTO_SPA_URL || $window.location.origin).toString();
     }
   }
 

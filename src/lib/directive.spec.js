@@ -22,6 +22,9 @@ describe('The opInboxCompose directive', function() {
 
   beforeEach(function() {
     $scope = $rootScope.$new();
+    window.openpaas = {
+      MAILTO_SPA_URL: 'http://mailto.open-paas.org.local'
+    };
   });
 
   function compileDirective(html, data) {
@@ -45,7 +48,7 @@ describe('The opInboxCompose directive', function() {
     $window.open = sinon.spy();
 
     emailElement.click();
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank');
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank');
   });
 
   it('should call the open fn when put email in opInboxCompose attribute', function() {
@@ -53,7 +56,7 @@ describe('The opInboxCompose directive', function() {
     $window.open = sinon.spy();
 
     emailElement.click();
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank');
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank');
   });
 
   it('should call the preventDefault and stopPropagation fn when clicked on mailto link', function() {
@@ -103,7 +106,7 @@ describe('The opInboxCompose directive', function() {
 
     emailElement.trigger('click');
 
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank');
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank');
   });
 
   it('should it should use the email address as the display name if display name is not defined', function() {
@@ -112,7 +115,7 @@ describe('The opInboxCompose directive', function() {
 
     emailElement.trigger('click');
 
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank');
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank');
   });
   describe('window size', function() {
     it('should look at op-inbox-compose-width to set width', function() {
@@ -122,7 +125,7 @@ describe('The opInboxCompose directive', function() {
 
       emailElement.trigger('click');
 
-      expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', 'width=1000,height=600,menubar=no,toolbar=no,status=no,top=700,left=500');
+      expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', 'width=1000,height=600,menubar=no,toolbar=no,status=no,top=700,left=500');
     });
 
     it('should look at op-inbox-compose-height to set height', function() {
@@ -132,7 +135,7 @@ describe('The opInboxCompose directive', function() {
 
       emailElement.trigger('click');
 
-      expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', 'width=800,height=1000,menubar=no,toolbar=no,status=no,top=500,left=600');
+      expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', 'width=800,height=1000,menubar=no,toolbar=no,status=no,top=500,left=600');
     });
 
     it('should choose screen width when smaller than asked width', function() {
@@ -142,7 +145,7 @@ describe('The opInboxCompose directive', function() {
 
       emailElement.trigger('click');
 
-      expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', 'width=200,height=600,menubar=no,toolbar=no,status=no,top=700,left=0');
+      expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', 'width=200,height=600,menubar=no,toolbar=no,status=no,top=700,left=0');
     });
 
     it('should choose screen height when smaller than asked width', function() {
@@ -152,7 +155,7 @@ describe('The opInboxCompose directive', function() {
 
       emailElement.trigger('click');
 
-      expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', 'width=800,height=200,menubar=no,toolbar=no,status=no,top=0,left=600');
+      expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', 'width=800,height=200,menubar=no,toolbar=no,status=no,top=0,left=600');
     });
   });
 
@@ -164,7 +167,7 @@ describe('The opInboxCompose directive', function() {
 
       emailElement.trigger('click');
 
-      expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', 'width=1000,height=800,menubar=no,toolbar=no,status=no,top=600,left=500');
+      expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', 'width=1000,height=800,menubar=no,toolbar=no,status=no,top=600,left=500');
     });
   });
 
@@ -177,7 +180,7 @@ describe('The opInboxCompose directive', function() {
 
     const expected = `width=${MAILTOHANDLER_CONSTANTS.windowWidth},height=${MAILTOHANDLER_CONSTANTS.windowHeight},menubar=no,toolbar=no,status=no,top=0,left=0`;
 
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', expected);
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', expected);
   });
 
   it('should use sensible default when window.screen.(width|height) are not exposed', function() {
@@ -189,6 +192,6 @@ describe('The opInboxCompose directive', function() {
 
     const expected = `width=${MAILTOHANDLER_CONSTANTS.windowWidth},height=${MAILTOHANDLER_CONSTANTS.windowHeight},menubar=no,toolbar=no,status=no,top=0,left=0`;
 
-    expect($window.open).to.have.been.calledWith('http://localhost:9876/mailto/?uri=mailto:SOMEONE', '_blank', expected);
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank', expected);
   });
 });
