@@ -51,6 +51,14 @@ describe('The opInboxCompose directive', function() {
     expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE', '_blank');
   });
 
+  it('should call the open fn with subject in URL Param', function() {
+    emailElement = compileDirective('<a ng-href="mailto:SOMEONE" op-inbox-compose op-inbox-compose-subject=TEST/>');
+    $window.open = sinon.spy();
+
+    emailElement.click();
+    expect($window.open).to.have.been.calledWith('http://mailto.open-paas.org.local/mailto/?uri=mailto:SOMEONE%3Fsubject%3DTEST', '_blank');
+  });
+
   it('should call the open fn when put email in opInboxCompose attribute', function() {
     emailElement = compileDirective('<a op-inbox-compose="SOMEONE"/>');
     $window.open = sinon.spy();

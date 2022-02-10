@@ -62,15 +62,25 @@ const _ = require('lodash');
                   email: target.email || target.preferredEmail
                 };
 
+                if (attrs.opInboxComposeSubject) {
+                  targetToAdded.subject = attrs.opInboxComposeSubject;
+                }
+
                 return Object.assign(target, targetToAdded);
               });
 
             } else {
               targets = emails.map(function(email) {
-                return {
+                const targetToAdded = {
                   email: email,
                   name: attrs.opInboxComposeDisplayName || email
                 };
+
+                if (attrs.opInboxComposeSubject) {
+                  targetToAdded.subject = attrs.opInboxComposeSubject;
+                }
+
+                return targetToAdded;
               });
             }
 
@@ -84,8 +94,10 @@ const _ = require('lodash');
       const recipients = targets.map(function(target) {
         return target.email;
       }).join(',');
+      const subject = targets[0].subject;
+      const params = subject ? encodeURIComponent(recipients + '?subject=' + subject) : encodeURIComponent(recipients);
 
-      return new URL('/mailto/?uri=mailto:' + encodeURIComponent(recipients), window.openpaas && window.openpaas.MAILTO_SPA_URL || $window.location.origin).toString();
+      return new URL('/mailto/?uri=mailto:' + params, window.openpaas && window.openpaas.MAILTO_SPA_URL || $window.location.origin).toString();
     }
   }
 
